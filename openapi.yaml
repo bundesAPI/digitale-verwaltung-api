@@ -33,9 +33,9 @@ paths:
           schema:
             type: string
             description: Gibt an, welche Seite der Ergebnismenge zurückgegeben werden soll. Die erste Seite entspricht dem Wert 0.
-            example: 0
+            example: '0'
             default: '0'
-          example: 0
+          example: '0'
         - name: size
           in: query
           description: Gibt an, wie groß die Ergebnismenge für die abgefragte Seite maximal sein darf.
@@ -43,9 +43,9 @@ paths:
           schema:
             type: string
             description: Gibt an, wie groß die Ergebnismenge für die abgefragte Seite maximal sein darf.
-            example: 100
+            example: '100'
             default: '100'
-          example: 100
+          example: '100'
       responses:
         '200':
           description: Ok
@@ -107,9 +107,9 @@ paths:
           schema:
             type: string
             description: Gibt an, welche Seite der Ergebnismenge zurückgegeben werden soll. Die erste Seite entspricht dem Wert 0.
-            example: 0
+            example: '0'
             default: '0'
-          example: 0
+          example: '0'
         - name: size
           in: query
           description: Gibt an, wie groß die Ergebnismenge für die abgefragte Seite maximal sein darf.
@@ -117,9 +117,9 @@ paths:
           schema:
             type: string
             description: Gibt an, wie groß die Ergebnismenge für die abgefragte Seite maximal sein darf.
-            example: 100
+            example: '100'
             default: '100'
-          example: 100
+          example: '100'
         - name: includeAbove
           in: query
           description: Gibt an, ob OZG-Leistungen auf darüberliegenden Gebietskörperschaften mit in der Ergebnismenge enthalten sein sollen.
@@ -208,9 +208,9 @@ paths:
           schema:
             type: string
             description: Gibt an, welche Seite der Ergebnismenge zurückgegeben werden soll. Die erste Seite entspricht dem Wert 0.
-            example: 0
+            example: '0'
             default: '0'
-          example: 0
+          example: '0'
         - name: size
           in: query
           description: Gibt an, wie groß die Ergebnismenge für die abgefragte Seite maximal sein darf.
@@ -218,9 +218,9 @@ paths:
           schema:
             type: string
             description: Gibt an, wie groß die Ergebnismenge für die abgefragte Seite maximal sein darf.
-            example: 100
+            example: '100'
             default: '100'
-          example: 100
+          example: '100'
       responses:
         '200':
           description: Ok
