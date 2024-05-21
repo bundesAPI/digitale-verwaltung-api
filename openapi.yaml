@@ -1,45 +1,421 @@
-openapi: "3.0.0"
+openapi: 3.0.1
 info:
-  description: "API Description"
-  version: "1.0.0"
-  title: "API Name"
-  x-office: "Amtsname"
-  contact:
-    name: Zuständige Behörde
-    email: behoerde@example.de
-    url: https://example.de
-
+  title: API zum Digitalisierungsfortschritt der öffentlichen Verwaltung
+  version: '1.0'
 servers:
-  - url: "https://warnung.bund.de/api31"
-
-tags:
-  - name: default
-
+  - url: https://dashboard-daten.digitale-verwaltung.de/api/
 paths:
-  /dashboard/{AGS}.json:
+  /v1/data:
     get:
-      summary: Name des Endpoints
-      description: Hier wird die Funktion des Endpunktes beschrieben.
-      operationId: getAGS
       tags:
-        - default
+        - Data
+      summary: Informationen zu OZG-Leistungen und deren zugehörigen Onlinediensten
+      description: Liefert Informationen zu OZG-Leistungen und deren zugehörigen Onlinediensten.
+      operationId: findAll
+      parameters:
+        - name: order
+          in: query
+          description: Gibt an, wie die Ergebnismenge sortiert werden soll.
+          required: false
+          schema:
+            type: string
+            description: Gibt an, wie die Ergebnismenge sortiert werden soll.
+            example: asc
+            enum:
+              - asc
+              - desc
+            default: asc
+          example: asc
+        - name: page
+          in: query
+          description: Gibt an, welche Seite der Ergebnismenge zurückgegeben werden soll. Die erste Seite entspricht dem Wert 0.
+          required: false
+          schema:
+            type: string
+            description: Gibt an, welche Seite der Ergebnismenge zurückgegeben werden soll. Die erste Seite entspricht dem Wert 0.
+            example: 0
+            default: '0'
+          example: 0
+        - name: size
+          in: query
+          description: Gibt an, wie groß die Ergebnismenge für die abgefragte Seite maximal sein darf.
+          required: false
+          schema:
+            type: string
+            description: Gibt an, wie groß die Ergebnismenge für die abgefragte Seite maximal sein darf.
+            example: 100
+            default: '100'
+          example: 100
       responses:
-        "200":
-          description: OK
+        '200':
+          description: Ok
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Result"
+                $ref: '#/components/schemas/PageDvDataDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDvDataDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageDvDataDto'
+  /v1/data/{ars}:
+    get:
+      tags:
+        - Data
+      summary: Informationen zu OZG-Leistungen und deren zugehörigen Onlinediensten eingeschränkt auf Gebietskörperschaften
+      description: Liefert Informationen zu OZG-Leistungen und deren zugehörigen Onlinediensten eingeschränkt auf Gebietskörperschaften.
+      operationId: findByFilter
       parameters:
-        - in: path
-          required: true
-          name: AGS
+        - name: filetype
+          in: query
+          description: Gibt an, in welchem Dateiformat (CSV, XLSX) die Ergebnismenge zurückgegeben werden soll.
+          required: false
+          schema:
+            pattern: csv|xlsx
+            type: string
+            description: Gibt an, in welchem Dateiformat (CSV, XLSX) die Ergebnismenge zurückgegeben werden soll.
+            example: csv
+            enum:
+              - csv
+              - xlsx
+            default: csv
+          example: csv
+        - name: order
+          in: query
+          description: Gibt an, wie die Ergebnismenge sortiert werden soll.
+          required: false
           schema:
             type: string
-          description: Amtlicher Gebietsschlüssel - kann z.B. von [hier](https://www.xrepository.de/api/xrepository/urn:de:bund:destatis:bevoelkerungsstatistik:schluessel:rs_2021-07-31/download/Regionalschl_ssel_2021-07-31.json) bezogen werden. Die Letzten 7 Stellen müssen dabei mit "0000000" ersetzt werden, weil die Daten nur auf [Kreisebene](https://de.wikipedia.org/wiki/Amtlicher_Gemeindeschl%C3%BCssel) bereitgestellt werden.
-          example: "example-parameter"
-
+            description: Gibt an, wie die Ergebnismenge sortiert werden soll.
+            example: asc
+            enum:
+              - asc
+              - desc
+            default: asc
+          example: asc
+        - name: page
+          in: query
+          description: Gibt an, welche Seite der Ergebnismenge zurückgegeben werden soll. Die erste Seite entspricht dem Wert 0.
+          required: false
+          schema:
+            type: string
+            description: Gibt an, welche Seite der Ergebnismenge zurückgegeben werden soll. Die erste Seite entspricht dem Wert 0.
+            example: 0
+            default: '0'
+          example: 0
+        - name: size
+          in: query
+          description: Gibt an, wie groß die Ergebnismenge für die abgefragte Seite maximal sein darf.
+          required: false
+          schema:
+            type: string
+            description: Gibt an, wie groß die Ergebnismenge für die abgefragte Seite maximal sein darf.
+            example: 100
+            default: '100'
+          example: 100
+        - name: includeAbove
+          in: query
+          description: Gibt an, ob OZG-Leistungen auf darüberliegenden Gebietskörperschaften mit in der Ergebnismenge enthalten sein sollen.
+          required: false
+          schema:
+            type: string
+            description: Gibt an, ob OZG-Leistungen auf darüberliegenden Gebietskörperschaften mit in der Ergebnismenge enthalten sein sollen.
+            example: true
+            enum:
+              - 'true'
+              - 'false'
+            default: 'true'
+          example: true
+        - name: includeBelow
+          in: query
+          description: Gibt an, ob OZG-Leistungen auf darunterliegenden Gebietskörperschaften mit in der Ergebnismenge enthalten sein sollen.
+          required: false
+          schema:
+            type: string
+            description: Gibt an, ob OZG-Leistungen auf darunterliegenden Gebietskörperschaften mit in der Ergebnismenge enthalten sein sollen.
+            example: true
+            enum:
+              - 'true'
+              - 'false'
+            default: 'true'
+          example: true
+        - name: ars
+          in: path
+          description: Gibt den 12-stelligen amtlichen Regionalschlüssel einer Gebietskörperschaft an.
+          required: true
+          schema:
+            pattern: ^\d{12}$
+            type: string
+            description: Gibt den 12-stelligen amtlichen Regionalschlüssel einer Gebietskörperschaft an.
+            example: '010510000000'
+          example: '010510000000'
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json: {}
+            application/octet-stream: {}
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+            application/octet-stream:
+              schema:
+                type: object
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+            application/octet-stream:
+              schema:
+                type: object
+  /v1/ars:
+    get:
+      tags:
+        - ARS
+      summary: Informationen zu Gebietskörperschaften in Deutschland
+      description: Liefert amtliche Regionalschlüssel und Bezeichnungen zu allen Gebietskörperschaften innerhalb Deutschlands.
+      operationId: findAll_1
+      parameters:
+        - name: order
+          in: query
+          description: Gibt an, wie die Ergebnismenge sortiert werden soll.
+          required: false
+          schema:
+            type: string
+            description: Gibt an, wie die Ergebnismenge sortiert werden soll.
+            example: asc
+            enum:
+              - asc
+              - desc
+            default: asc
+          example: asc
+        - name: page
+          in: query
+          description: Gibt an, welche Seite der Ergebnismenge zurückgegeben werden soll. Die erste Seite entspricht dem Wert 0.
+          required: false
+          schema:
+            type: string
+            description: Gibt an, welche Seite der Ergebnismenge zurückgegeben werden soll. Die erste Seite entspricht dem Wert 0.
+            example: 0
+            default: '0'
+          example: 0
+        - name: size
+          in: query
+          description: Gibt an, wie groß die Ergebnismenge für die abgefragte Seite maximal sein darf.
+          required: false
+          schema:
+            type: string
+            description: Gibt an, wie groß die Ergebnismenge für die abgefragte Seite maximal sein darf.
+            example: 100
+            default: '100'
+          example: 100
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageArsDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageArsDto'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageArsDto'
 components:
   schemas:
-    Result:
-      type: string
+    DvDataDto:
+      type: object
+      properties:
+        leika_key:
+          type: string
+          description: LeiKa Schlüssel
+          example: '99041006017000'
+        leika_name:
+          type: string
+          description: LeiKa-Name
+          example: Hundehaltung anmelden
+        ars:
+          type: string
+          description: 12-stelliger amtlicher Regionalschlüssel einer Gebietskörperschaft
+          example: '010510000000'
+        ars_name:
+          type: string
+          description: Bezeichnung der Gebietskörperschaft
+          nullable: true
+          example: Dithmarschen
+        ars_federal_state:
+          type: string
+          description: 2-stelliger Bundeslandcode
+          nullable: true
+          example: '01'
+        bundesland:
+          type: string
+          description: Bundesland
+          nullable: true
+          example: Schleswig-Holstein
+        leika_bezeichnung:
+          type: string
+          description: LeiKa-Bezeichnung
+          nullable: true
+          example: Hundesteuer Anmeldung
+        ozgid:
+          type: integer
+          description: ID der OZG-Leistung
+          format: int32
+          nullable: true
+          example: 10000
+        ozg_bezeichnung:
+          type: string
+          description: Bezeichnung der OZG-Leistung
+          nullable: true
+          example: Elterngeld
+        url:
+          type: string
+          description: URL des Onlinedienstes
+          example: https://www.elterngeld-digital.de/ams/Elterngeld/wizardng/FFE7CD?v=1631864309988
+        online_status:
+          type: string
+          description: Gibt Aufschluss über die Funktionsfähigkeit des Onlinedienstes
+          example: ok
+          enum:
+            - ok
+            - nicht ok
+        aktiv:
+          type: string
+          description: Gibt an, ob die OZG-Leistung aktiv ist
+          nullable: true
+          example: ja
+          enum:
+            - ja
+            - nein
+        art_flaechendeckung:
+          type: string
+          description: Gibt an, welches Flächendeckungsergebnis die OZG-Leistung für die Gebietskörperschaft erzielt
+          example: landesweit flächendeckend
+          enum:
+            - bundesweit flächendeckend
+            - in mind. einer Kommune verfügbar
+            - landesweit flächendeckend
+            - kreisweit flächendeckend
+            - nicht in Auswertung berücksichtigt
+    PageDvDataDto:
+      type: object
+      properties:
+        totalPages:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int64
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        numberOfElements:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/DvDataDto'
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        empty:
+          type: boolean
+    PageableObject:
+      type: object
+      properties:
+        paged:
+          type: boolean
+        unpaged:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
+    SortObject:
+      type: object
+      properties:
+        unsorted:
+          type: boolean
+        sorted:
+          type: boolean
+        empty:
+          type: boolean
+    ArsDto:
+      type: object
+      properties:
+        ars:
+          type: string
+          description: 12-stelliger amtlicher Regionalschlüssel einer Gebietskörperschaft
+          example: '010510000000'
+        arsName:
+          type: string
+          description: Bezeichnung der Gebietskörperschaft
+          example: Dithmarschen
+    PageArsDto:
+      type: object
+      properties:
+        totalPages:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int64
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        numberOfElements:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/ArsDto'
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        empty:
+          type: boolean
