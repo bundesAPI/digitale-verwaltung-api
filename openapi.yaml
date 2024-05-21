@@ -132,7 +132,7 @@ paths:
               - 'true'
               - 'false'
             default: 'true'
-          example: true
+          example: 'true'
         - name: includeBelow
           in: query
           description: Gibt an, ob OZG-Leistungen auf darunterliegenden Gebietskörperschaften mit in der Ergebnismenge enthalten sein sollen.
