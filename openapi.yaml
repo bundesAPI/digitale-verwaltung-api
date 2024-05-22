@@ -3,7 +3,7 @@ info:
   title: API zum Digitalisierungsfortschritt der öffentlichen Verwaltung
   version: '1.0'
 servers:
-  - url: https://dashboard-daten.digitale-verwaltung.de/api/
+  - url: https://digitale-verwaltung.api.proxy.bund.dev/api/
 paths:
   /v1/data:
     get:

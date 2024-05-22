@@ -1,6 +1,6 @@
 # digitale_verwaltung.DataApi
 
-All URIs are relative to *https://dashboard-daten.digitale-verwaltung.de/api*
+All URIs are relative to *https://digitale-verwaltung.api.proxy.bund.dev/api*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -24,10 +24,10 @@ from deutschland import digitale_verwaltung
 from deutschland.digitale_verwaltung.api import data_api
 from deutschland.digitale_verwaltung.model.page_dv_data_dto import PageDvDataDto
 from pprint import pprint
-# Defining the host is optional and defaults to https://dashboard-daten.digitale-verwaltung.de/api
+# Defining the host is optional and defaults to https://digitale-verwaltung.api.proxy.bund.dev/api
 # See configuration.py for a list of all supported configuration parameters.
 configuration = digitale_verwaltung.Configuration(
-    host = "https://dashboard-daten.digitale-verwaltung.de/api"
+    host = "https://digitale-verwaltung.api.proxy.bund.dev/api"
 )
 
 
@@ -97,10 +97,10 @@ import time
 from deutschland import digitale_verwaltung
 from deutschland.digitale_verwaltung.api import data_api
 from pprint import pprint
-# Defining the host is optional and defaults to https://dashboard-daten.digitale-verwaltung.de/api
+# Defining the host is optional and defaults to https://digitale-verwaltung.api.proxy.bund.dev/api
 # See configuration.py for a list of all supported configuration parameters.
 configuration = digitale_verwaltung.Configuration(
-    host = "https://dashboard-daten.digitale-verwaltung.de/api"
+    host = "https://digitale-verwaltung.api.proxy.bund.dev/api"
 )
 
 
