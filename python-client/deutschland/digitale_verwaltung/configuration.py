@@ -105,7 +105,7 @@ class Configuration(object):
     ):
         """Constructor"""
         self._base_path = (
-            "https://dashboard-daten.digitale-verwaltung.de/api"
+            "https://digitale-verwaltung.api.proxy.bund.dev/api"
             if host is None
             else host
         )
@@ -408,7 +408,7 @@ class Configuration(object):
         """
         return [
             {
-                "url": "https://dashboard-daten.digitale-verwaltung.de/api",
+                "url": "https://digitale-verwaltung.api.proxy.bund.dev/api",
                 "description": "No description provided",
             }
         ]

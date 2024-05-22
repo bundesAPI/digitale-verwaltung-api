@@ -51,10 +51,10 @@ from deutschland import digitale_verwaltung
 from pprint import pprint
 from deutschland.digitale_verwaltung.api import ars_api
 from deutschland.digitale_verwaltung.model.page_ars_dto import PageArsDto
-# Defining the host is optional and defaults to https://dashboard-daten.digitale-verwaltung.de/api
+# Defining the host is optional and defaults to https://digitale-verwaltung.api.proxy.bund.dev/api
 # See configuration.py for a list of all supported configuration parameters.
 configuration = digitale_verwaltung.Configuration(
-    host = "https://dashboard-daten.digitale-verwaltung.de/api"
+    host = "https://digitale-verwaltung.api.proxy.bund.dev/api"
 )
 
 
@@ -77,7 +77,7 @@ with digitale_verwaltung.ApiClient(configuration) as api_client:
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *https://dashboard-daten.digitale-verwaltung.de/api*
+All URIs are relative to *https://digitale-verwaltung.api.proxy.bund.dev/api*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
